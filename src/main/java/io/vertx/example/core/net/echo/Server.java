@@ -38,7 +38,7 @@ public class Server extends AbstractVerticle {
 					e.printStackTrace();
 				}
 
-				//socket.write("Receive => " + message + "\r\n");
+				socket.write("Receive => " + message + "\n");
 				if (message.contains("start")) {
 					System.out.println("s: " + new Date());
 				}

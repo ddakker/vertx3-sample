@@ -1,7 +1,10 @@
 package io.vertx.example.core.net.echo;
 
+import java.util.Date;
+
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.net.NetSocket;
+import io.vertx.core.parsetools.RecordParser;
 import io.vertx.example.util.Runner;
 
 /*
@@ -20,22 +23,22 @@ public class Client extends AbstractVerticle {
 
       if (res.succeeded()) {
         NetSocket socket = res.result();
-        socket.handler(buffer -> {
-          System.out.println("Net client receiving: " + buffer.toString("UTF-8"));
-        });
+        socket.handler(RecordParser.newDelimited("\n", buffer -> {
+          System.out.println(new Date() + "Net client receiving: " + buffer.toString("UTF-8"));
+        }));
 
-        socket.write("start\n");
+        //socket.write("start\n");
         // Now send some data
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
           String str = "hello " + i + "\n";
-          System.out.println("Net client sending: " + str);
+          System.out.println(new Date() + "Net client sending: " + str);
           //if (i%10000 == 0) System.out.println("send: " + i);
           socket.write(str);
         }
         System.out.println("send end");
-        socket.write("end\n");
+        //socket.write("end\n");
         
-        socket.close();
+        //socket.close();
       } else {
         System.out.println("Failed to connect " + res.cause());
       }
