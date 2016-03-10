@@ -31,14 +31,16 @@ public class Server extends AbstractVerticle {
 				String message = buffer.toString().trim();
 
 				//System.out.println(socket.remoteAddress() + " (" + handlerID + ") => " + message + "\r\n");
-				try {
-					Thread.sleep(5000);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (message.contains("control")) {
+					try {
+						Thread.sleep(2000);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 
-				socket.write("Receive => " + message + "\n");
+				//socket.write("Receive => " + message + "\n");
 				if (message.contains("start")) {
 					System.out.println("s: " + new Date());
 				}

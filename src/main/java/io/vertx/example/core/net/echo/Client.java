@@ -27,17 +27,20 @@ public class Client extends AbstractVerticle {
           System.out.println(new Date() + "Net client receiving: " + buffer.toString("UTF-8"));
         }));
 
-        //socket.write("start\n");
+
+        long l = System.currentTimeMillis();
+
+        socket.write("[control] start\n");
         // Now send some data
-        for (int i = 0; i < 2; i++) {
-          String str = "hello " + i + "\n";
-          System.out.println(new Date() + "Net client sending: " + str);
-          //if (i%10000 == 0) System.out.println("send: " + i);
+        for (int i = 0; i < 1000000; i++) {
+          String str = "Hello World! " + i + "\n";
+          //System.out.println(new Date() + "Net client sending: " + str);
+          if (i%10000 == 0) System.out.println("send: " + i);
           socket.write(str);
         }
-        System.out.println("send end");
-        //socket.write("end\n");
-        
+        socket.write("[control] end\n");
+        System.out.println("send end time: " + (System.currentTimeMillis() - l));
+
         //socket.close();
       } else {
         System.out.println("Failed to connect " + res.cause());
